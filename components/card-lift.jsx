@@ -7,7 +7,7 @@ const CardLift = () => {
     <section className="">
         <div className="mx-autol">
           <div className="sm:rounded-[3rem] rounded-none bg-gradient-to-br from-black to-neutral-800/90  p-8 md:p-12 lg:p-16 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0071E3]/60 via-[#0071E3]/20 to-neutral-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-[#F552AB]/80 via-[#FECAB4]/40 to-neutral-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             
             <div className="grid md:grid-cols-2 gap-12 items-center py-24 sm:py-0">
               <div className="relative z-10">
@@ -34,7 +34,7 @@ const CardLift = () => {
                 </div>
               </div>
               <div className="relative">
-                <div className="aspect-square rounded-[2rem] bg-gradient-to-br from-[#0071E3]/60 via-[#0071E3]/30 to-neutral-100 p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="aspect-square rounded-[2rem] bg-gradient-to-br from-[#FFFF]/60 via-[#FFFF]/30 to-neutral-100 p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
                   <div className="w-full h-full bg-[#282828] rounded-[1.9rem] p-8 flex flex-col justify-between">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
