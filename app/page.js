@@ -226,7 +226,7 @@ function Page() {
                         loading="eager"
                         alt="Logo Brinpage"
                     />
-                    <p className='text-neutral-200 text-sm text-center'>Liftcode AI is in BETA phase, it may take longer than expected or you may not receive a response from the server.</p>
+                    <p className='text-neutral-200 text-sm text-center mt-10'>Liftcode AI is in BETA phase, it may take longer than expected or you may not receive a response from the server.</p>
                     <Loader2 className="animate-spin h-10 w-10 text-white mt-10" />
                 </div>
             )}
