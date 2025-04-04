@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]  // ← Esta es la clave crítica
+    }
+  },
+  "exclude": ["node_modules"]
+}
