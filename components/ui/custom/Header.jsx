@@ -12,13 +12,13 @@ function Header() {
           
           <nav className="space-x-8 flex items-center ">
  
-            <a href='/news' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>News</a>
+            {/* <a href='/news' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>News</a>
             <a href='/news' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>Components</a>
             <a href='/pricing' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>Pricing</a>
-            <a href='/terms' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>Terms</a>
+            <a href='/terms' className='mx-2 text-sm text-neutral-200 hover:text-neutral-400 transition font-medium'>Terms</a> */}
 
             <Link href='/chat'>
-              <p className='text-sm text-white transition bg-neutral-700 hover:bg-[#0071E3] rounded-full py-2 px-3'>
+              <p className='text-sm text-white transition bg-neutral-800 hover:bg-[#0071E3] rounded-full py-2 px-3'>
                 Get Started
               </p>
             </Link>

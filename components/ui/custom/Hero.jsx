@@ -34,9 +34,9 @@ function Hero() {
                         AI code generator
                     </span>
                     </h2>
-                    <p className="text-xl text-neutral-200 md:text-2xl my-4">
+                    <p className="text-,d text-neutral-200 md:text-2xl my-4">
                         Crafting exceptional digital experiences through innovative
-                    <br />
+
                         design and cutting-edge technology.
                     </p>
                     <a href="/chat" className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-neutral-200 bg-neutral-200 text-neutral-900 hover:text-neutral-200 hover:border hover:border-neutral-200 hover:bg-transparent transition focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
