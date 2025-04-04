@@ -220,7 +220,7 @@ function Page() {
             {loading && (
                 <div className="fixed inset-0 bg-neutral-900/70 backdrop-blur-sm z-[9] flex-col flex items-center justify-center">
                     <Image
-                        src="/logo.png"
+                        src="/logo-beta.png"
                         width={260}
                         height={0}
                         loading="eager"
