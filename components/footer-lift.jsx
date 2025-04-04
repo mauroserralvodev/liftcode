@@ -12,8 +12,8 @@ const FooterLift = () => {
         <p className="text-sm text-neutral-200 sm:ml-4 sm:pl-4 text-center sm:border-l border-neutral-400 sm:py-2 sm:mt-0 mt-4">© 2025 LiftCode AI  by <a href="https://brinpage.com/" className='hover:underline hover:text-neutral-500'>BrinPage</a> — All rights reserved.</p>
         <div className='inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start'>
           <Link href="/"className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>Home</Link>
-          <a href='/news' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>News</a>
-          <a href='/chat' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>Components</a>
+          {/* <a href='/news' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>News</a>
+          <a href='/chat' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>Components</a> */}
           <a href='/pricing' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>Pricing</a>
           <a href='/terms' className='mx-2 text-sm text-neutral-200 hover:text-neutral-600 hover:underline transition font-medium'>Terms and Conditions</a>
         </div>

@@ -24,7 +24,7 @@ function Hero() {
             </div>
             <div className="relative z-10 flex h-full flex-col items-start justify-center p-8 text-white">
                 <div className="mx-auto max-w-8xl">
-                    <span className="rounded-full bg-white/20 border border-white/60 text-neutral-200 px-5 py-1 text-sm my-2">
+                    <span className="rounded-full bg-white/20 border border-white/60 text-neutral-200 px-5 py-1 text-xs my-2">
                         BETA VERSION
                     </span>
                     <h2 className="text-white text-4xl sm:text-5xl font-medium sm:font-bold leading-tight md:text-8xl my-2">

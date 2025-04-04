@@ -71,17 +71,17 @@ function Page() {
                     <Link href="/" className="mb-6 px-10 flex items-center justify-center">
                         <img src="logo.png" className="w-48 sm:w-64" alt="Logo" />
                     </Link>
-                    <h2 className="text-xl px-10 font-medium text-white text-center">
+                    <h2 className="text-md px-10 font-medium text-white text-center">
                         This page is only available in the desktop version, sorry for the inconvenience.
                     </h2>
                     <div className="flex justify-center items-center mt-10">
                         
-                        <a
+                        <Link
                             className="border border-neutral-700 bg-white/95 text-black px-3 py-2 rounded-lg mr-2 inline-flex items-center gap-x-2"
-                            href="https://brinpage.com"
+                            href="/"
                         >
-                            Discover more
-                            <svg
+                            Go Back
+                            <svg 
                                 className="shrink-0 size-4"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
@@ -95,7 +95,7 @@ function Page() {
                             >
                                 <path d="m9 18 6-6-6-6" />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             ) : (
