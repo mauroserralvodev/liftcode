@@ -184,7 +184,7 @@ function Page() {
                 <FooterLift/>
               </div>
             ) : (
-                <div className="relative h-[50rem] sm:h-[59rem] w-full flex items-center justify-center">
+                <div className="relative  min-h-screen w-full flex items-center justify-center">
                     <div className="flex flex-col items-center py-24 px-56 gap-2 max-w-6xl mx-auto rounded-[2rem] backdrop-blur-sm">
                         <Link href="/" className="flex text-lg items-center text-white mb-6">
                             <img src="logow.png" className="w-48 sm:w-64" alt="Logo" />
