@@ -15,7 +15,7 @@ function Hero() {
                 />
                 {/* Ordenador */}
                 <img 
-                    src='/back12.png' 
+                    src='/back1mb.png' 
                     className="h-full w-full hidden sm:block object-cover"
                     alt="Desktop Banner"
                     loading="eager"
