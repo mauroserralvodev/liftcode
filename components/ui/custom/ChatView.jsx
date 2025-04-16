@@ -183,20 +183,20 @@ function ChatView() {
                 <div className='text-neutral-200 px-2 flex flex-col'>
                   <ReactMarkdown
                     components={{
-                      ul: ({ node, ordered, ...restProps }) => (
+                      ul: ({ node, ordered, ...rest }) => (
                         <ul 
-                          className="list-inside space-y-1.5 pl-3" 
-                          {...restProps}
+                          className="list-inside space-y-1.5 pl-3"
+                          {...rest}
                         />
                       ),
-                      li: ({ node, ordered, ...restProps }) => (
+                      li: ({ node, ordered, ...rest }) => (
                         <li
                           className={`relative ${
                             ordered 
                               ? 'pl-4 list-decimal' 
                               : "before:content-['-'] before:absolute before:-left-4 before:text-neutral-400"
                           }`}
-                          {...restProps}
+                          {...rest}
                         />
                       ),
                       p: ({ node, ...props }) => (

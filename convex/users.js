@@ -1,28 +1,35 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-export const CreateUser=mutation({
-    args:{
-        name:v.string(),
-        email:v.string(),
-        picture:v.string(),
-        uid:v.string()
+export const CreateUser = mutation({
+    args: {
+      name: v.string(),
+      email: v.string(),
+      picture: v.string(),
+      uid: v.string()
     },
-    handler:async(ctx,args)=>{
-         const user=await ctx.db.query('users').filter((q)=>q.eq(q.field('email'),args.email)).collect()
-         console.log(user)
-         if(user?.length==0){
-            const result=await ctx.db.insert('users',{
-                name:args.name,
-                picture:args.picture,
-                email:args.email,
-                uid:args.uid,
-                token:50000
-            });
-            console.log(result);
-         }
+    handler: async (ctx, args) => {
+      const existingUser = await ctx.db
+        .query('users')
+        .filter(q => q.eq(q.field('email'), args.email))
+        .unique(); // mejor que .collect()[0]
+  
+      if (existingUser) {
+        return existingUser;
+      }
+  
+      const id = await ctx.db.insert('users', {
+        name: args.name,
+        picture: args.picture,
+        email: args.email,
+        uid: args.uid,
+        token: 50000
+      });
+  
+      const newUser = await ctx.db.get(id); // devolvemos el usuario creado completo
+      return newUser;
     }
-})
+});
 
 export const GetUser=query({
     args:{
