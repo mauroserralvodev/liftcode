@@ -6,53 +6,58 @@ import { UserDetailContext } from '@/context/UserDetailContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useConvex } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import AppSideBar from '@/components/ui/custom/AppSidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
+function Provider({ children }) {
+  const [messages, setMessages] = useState();
+  const [userDetail, setUserDetail] = useState();
+  const convex = useConvex();
 
-function Provider({children}) {
-  const [messages,setMessages]=useState();
-  const [userDetail,setUserDetail]=useState();
-  const convex=useConvex();
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('user');
+          if (!storedUser) return;
 
-  useEffect(()=>{
-    IsAuthenticated();
-  },[])
- 
-  const IsAuthenticated=async()=>{
-    if(typeof window!==undefined){
-      const user=JSON.parse(localStorage.getItem('user'))
-      const result=await convex.query(api.users.GetUser,{
-        email:user?.email
-      })
-      setUserDetail(result);
-      console.log(result);
-    }
-  }
+          const parsedUser = JSON.parse(storedUser);
+          if (!parsedUser?.email) return;
+
+          const result = await convex.query(api.users.GetUser, {
+            email: parsedUser.email,
+          });
+
+          if (result) {
+            setUserDetail(result);
+            console.log("Usuario obtenido:", result);
+          }
+        }
+      } catch (error) {
+        console.error("Error al cargar usuario:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
-    <div>
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID_KEY}>
-        <PayPalScriptProvider options={{ clientId:process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }} style={{theme: "dark" }}>
-          <UserDetailContext.Provider value={{userDetail,setUserDetail}}>
-            <MessagesContext.Provider value={{messages,setMessages}}>
-              <NextThemesProvider
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID_KEY}>
+      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }} style={{ theme: "dark" }}>
+        <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+          <MessagesContext.Provider value={{ messages, setMessages }}>
+            <NextThemesProvider
               attribute="class"
               defaultTheme="dark"
               enableSystem
               disableTransitionOnChange
-              >
-             
-                  {children}
-           
-              </NextThemesProvider>
-            </MessagesContext.Provider>
-          </UserDetailContext.Provider>
-        </PayPalScriptProvider>
-      </GoogleOAuthProvider>
-    </div>
-  )
+            >
+              {children}
+            </NextThemesProvider>
+          </MessagesContext.Provider>
+        </UserDetailContext.Provider>
+      </PayPalScriptProvider>
+    </GoogleOAuthProvider>
+  );
 }
 
-export default Provider
+export default Provider;

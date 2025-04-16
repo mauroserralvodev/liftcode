@@ -112,31 +112,48 @@ function Page() {
     }, []);
 
     const onGenerate = async (input) => {
-        if (userDetail?.token < 100) {
-            setShowCreditNotification(true);
-            return;
-        }
-        setLoading(true);
-        if (!userDetail?.name) {
-            setOpenDialog(true);
-            setLoading(false);
-            return;
-        }
-        
-        const msg = {
-            role: 'user',
-            content: input
-        };
-        setMessages([...messages, msg]);
-
-        const dashId = await CreateDash({
-            user: userDetail._id,
-            messages: [msg]
-        });
-        
-        router.push('/dash/' + dashId);
-        setLoading(false);
-    };
+      // Si el usuario aún no se ha cargado
+      if (!userDetail) {
+          console.warn("userDetail aún no está disponible.");
+          setOpenDialog(true);
+          return;
+      }
+  
+      // Validación de créditos
+      if (userDetail.token < 100) {
+          setShowCreditNotification(true);
+          return;
+      }
+  
+      // Validación de ID de usuario
+      if (!userDetail._id) {
+          console.error("userDetail no tiene _id. El usuario podría no haberse cargado correctamente desde Convex.");
+          setOpenDialog(true);
+          return;
+      }
+  
+      setLoading(true);
+  
+      const msg = {
+          role: 'user',
+          content: input
+      };
+      setMessages([msg]);
+  
+      try {
+          const dashId = await CreateDash({
+              user: userDetail._id, // asegurado que existe
+              messages: [msg]
+          });
+  
+          router.push('/dash/' + dashId);
+      } catch (err) {
+          console.error("Error creando dashboard:", err);
+      }
+  
+      setLoading(false);
+  };
+  
 
     useEffect(() => {
         if (showCreditNotification) {

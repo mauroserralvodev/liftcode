@@ -2,6 +2,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import "./globals.css";
 import Provider from "./provider";
 import { Wix_Madefor_Display } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter3 = Wix_Madefor_Display({ subsets: ["latin"], weight: "400" });
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
         <ConvexClientProvider>
           <Provider>
             {children}
+            <SpeedInsights />
           </Provider>  
         </ConvexClientProvider>
       </body>
