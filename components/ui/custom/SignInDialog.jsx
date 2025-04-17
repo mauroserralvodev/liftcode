@@ -13,10 +13,12 @@ import axios from 'axios';
 import { useMutation } from 'convex/react';
 import uuid4 from 'uuid4';
 import { api } from '@/convex/_generated/api';
+import { useConvex } from 'convex/react';
 
 function SignInDialog({ openDialog, closeDialog }) {
   const {userDetail,setUserDetail}=useContext(UserDetailContext);
   const CreateUser=useMutation(api.users.CreateUser);
+  const convex = useConvex();
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -28,15 +30,23 @@ function SignInDialog({ openDialog, closeDialog }) {
 
       console.log(userInfo);
         const user=userInfo.data;
-        await CreateUser({
-          name:user?.name,
-          email:user?.email,
-          picture:user?.picture,
-          uid:uuid4()
-        })
 
-        if(typeof window!==undefined){
-          localStorage.setItem('user',JSON.stringify(user))
+        const existingUser = await convex.query(api.users.GetUser, {
+          email: user?.email,
+        });
+        
+        if (!existingUser) {
+          await CreateUser({
+            name: user?.name,
+            email: user?.email,
+            picture: user?.picture,
+            uid: uuid4()
+          });
+        }
+
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(user));
+          window.dispatchEvent(new Event("storage"));
         }
 
         setUserDetail(userInfo?.data);

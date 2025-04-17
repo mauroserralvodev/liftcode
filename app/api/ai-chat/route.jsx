@@ -9,15 +9,15 @@ export async function POST(req) {
     const result = await chatSession.sendMessage(`
       ${prompt}
       
-      INSTRUCCIONES ESTRICTAS DE FORMATO:
-      1. SOLO texto plano
-      2. Prohibido usar [] {} o cualquier formato JSON
-      3. Usar markdown simple (* para listas)
-      4. Ejemplo de respuesta válida:
-      "Implementaré:
-      * Diseño minimalista
-      * Tipografía moderna
-      * Efectos de transparencia"
+      STRICT FORMATTING INSTRUCTIONS:
+      1. plain text ONLY
+      2. Forbidden to use [] {} or any JSON formatting
+      3. Use simple markdown (* for lists)
+      4. Example of valid response:
+      “I will implement:
+      * Minimalist design
+      * Modern typography
+      * Transparency effects”.
     `);
 
     // Extracción y limpieza agresiva

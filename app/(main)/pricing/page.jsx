@@ -13,7 +13,7 @@ function Pricing() {
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSideBar/>
-        <div className='mt-20 flex flex-col items-center w-full p-10 sm:px-48'>
+        <div className='mt-20 flex flex-col items-center w-full px-10'>
             <h2 className='font-bold text-3xl'>Manage your credits</h2>
             <p className='text-neutral-400 max-w-2xl text-center mt-4'>{Lookup.PRICING_DESC}</p>
             <div className='mt-8 p-8 border border-white/20 hover:border-white/50 bg-neutral-900/20 transition rounded-full w-full max-w-6xl flex justify-between items-center'>

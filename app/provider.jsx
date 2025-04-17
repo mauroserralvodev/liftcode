@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { MessagesContext } from "@/context/MessagesContext";
@@ -13,44 +14,44 @@ function Provider({ children }) {
   const [userDetail, setUserDetail] = useState();
   const convex = useConvex();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        if (typeof window !== "undefined") {
-          const storedUser = localStorage.getItem("user");
-          if (!storedUser) return;
+  const fetchUser = async () => {
+    try {
+      if (typeof window === "undefined") return;
 
-          const parsedUser = JSON.parse(storedUser);
-          if (!parsedUser?.email) return;
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) return;
 
-          let result = await convex.query(api.users.GetUser, {
-            email: parsedUser.email,
-          });
+      const parsedUser = JSON.parse(storedUser);
+      if (!parsedUser?.email) return;
 
-          // Si no existe en la DB, lo creamos
-          if (!result) {
-            await convex.mutation(api.users.CreateUser, {
-              name: parsedUser.name,
-              email: parsedUser.email,
-              picture: parsedUser.picture,
-              uid: parsedUser.sub,
-            });
-
-            result = await convex.query(api.users.GetUser, {
-              email: parsedUser.email,
-            });
-          }
-
-          setUserDetail(result);
-          console.log("Usuario cargado:", result);
-        }
-      } catch (error) {
-        console.error("Error al cargar usuario:", error);
+      // Obtener el usuario desde Convex
+      let result = await convex.query(api.users.GetUser, {
+        email: parsedUser.email,
+      });
+      
+      if (result) {
+        setUserDetail(result);
+        console.log("Usuario cargado:", result);
       }
+    } catch (error) {
+      console.error("Error al cargar usuario:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+
+    // Escuchar cambios de localStorage (para detectar login desde cualquier parte)
+    const handleStorageChange = () => {
+      fetchUser();
     };
 
-    fetchUser();
-  }, []);
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [convex]);
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID_KEY}>
