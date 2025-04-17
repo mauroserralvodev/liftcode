@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import uuid4 from "uuid4";
 
 function Provider({ children }) {
   const [messages, setMessages] = useState();
@@ -24,11 +25,26 @@ function Provider({ children }) {
       const parsedUser = JSON.parse(storedUser);
       if (!parsedUser?.email) return;
 
-      // Obtener el usuario desde Convex
+      // Consultar en la base de datos
       let result = await convex.query(api.users.GetUser, {
         email: parsedUser.email,
       });
-      
+
+      // Si no existe, lo creamos
+      if (!result) {
+        await convex.mutation(api.users.CreateUser, {
+          name: parsedUser.name,
+          email: parsedUser.email,
+          picture: parsedUser.picture,
+          uid: parsedUser.sub || parsedUser.uid || uuid4(),
+        });
+
+        // Volvemos a consultarlo
+        result = await convex.query(api.users.GetUser, {
+          email: parsedUser.email,
+        });
+      }
+
       if (result) {
         setUserDetail(result);
         console.log("Usuario cargado:", result);
@@ -41,16 +57,12 @@ function Provider({ children }) {
   useEffect(() => {
     fetchUser();
 
-    // Escuchar cambios de localStorage (para detectar login desde cualquier parte)
     const handleStorageChange = () => {
       fetchUser();
     };
 
     window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [convex]);
 
   return (
