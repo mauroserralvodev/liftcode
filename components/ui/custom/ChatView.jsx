@@ -1,4 +1,5 @@
 "use client"
+import vector from '@/public/Vector.png';
 import { MessagesContext } from '@/context/MessagesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import { api } from '@/convex/_generated/api';
@@ -60,28 +61,32 @@ function ChatView() {
   const GetAiResponse = async () => {
     setLoading(true);
     try {
-      const PROMPT = JSON.stringify(messages) + Prompt.CHAT_PROMPT;
-      
-      const result = await axios.post('/api/ai-chat', { 
-        prompt: PROMPT 
-      }).catch(error => {
-        console.error("Error en la petición:", error.response?.data || error.message);
-        throw new Error("Error al conectar con el servidor");
+      const promptToSend = [
+        ...messages,
+        { role: "system", content: Prompt.CHAT_PROMPT }
+      ];
+  
+      const result = await axios.post("/api/ai-chat", {
+        prompt: JSON.stringify(promptToSend)
       });
   
       const apiResponse = result.data?.result || "";
-      
-      let cleanResponse = apiResponse
-        .replace(/\"role\":\s*\"assistant\"\,\s*\"content\":\s*\"/gi, '')
-        .replace(/^["'{]+|["'}]+$/g, '')
-        .replace(/\\n/g, '\n')
-        .trim();
   
-      if ((cleanResponse.startsWith('{') || cleanResponse.startsWith('['))) {
-        try {
-          const parsed = JSON.parse(cleanResponse);
+      // Si la respuesta parece ser JSON, intenta parsearla
+      let cleanResponse = apiResponse;
+      try {
+        const parsed = JSON.parse(apiResponse);
+        if (Array.isArray(parsed)) {
+          cleanResponse = parsed[0]?.content || parsed[0]?.response || apiResponse;
+        } else if (typeof parsed === "object") {
           cleanResponse = parsed.content || parsed.response || parsed.message || apiResponse;
-        } catch {}
+        }
+      } catch {
+        // Si no es JSON, limpiamos texto plano
+        cleanResponse = apiResponse
+          .replace(/^["'{\[]+|["'}\]]+$/g, "") // quitar comillas o llaves extra
+          .replace(/\\n/g, "\n")
+          .trim();
       }
   
       if (!cleanResponse) {
@@ -89,40 +94,44 @@ function ChatView() {
       }
   
       const aiResp = {
-        role: 'ai',
+        role: "ai",
         content: cleanResponse
       };
   
       const newMessages = [...(messages || []), aiResp];
-      
+  
       setMessages(newMessages);
       await UpdateMessages({
         messages: newMessages,
         dashId: id
       });
-      
-      // Actualización corregida de tokens
-      const tokensUsed = 1; // Define cuántos tokens consumes por solicitud
+  
+      // Actualización de tokens
+      const tokensUsed = 1;
       setUserDetail(prev => ({
         ...prev,
         token: prev.token - tokensUsed
       }));
-      
+  
       await UpdateTokens({
         userId: userDetail?._id,
         token: userDetail.token - tokensUsed
       });
-  
     } catch (error) {
       console.error("Error completo:", error);
-      setMessages(prev => [...(prev || []), {
-        role: 'ai',
-        content: "⚠️ Error: " + (error.message || "No se pudo generar la respuesta")
-      }]);
+      setMessages(prev => [
+        ...(prev || []),
+        {
+          role: "ai",
+          content:
+            "⚠️ Error: " + (error.message || "No se pudo generar la respuesta")
+        }
+      ]);
     } finally {
       setLoading(false);
     }
-  }
+  };
+  
 
   const onGenerate = (input) => {
     if(userDetail?.token < 100){
@@ -173,13 +182,16 @@ function ChatView() {
               </>
             ) : (
               <>
-                <Image 
+                {/* <Image 
                   src='/vector.png' 
                   alt='Liftcode AI'
                   width={35} 
                   height={35} 
                   className='mt-1 self-start p-1' 
-                />
+                /> */}
+                  <img src={vector} alt="Logo"  width={35} 
+                  height={35} 
+                  className='mt-1 self-start p-1'  />
                 <div className='text-neutral-200 px-2 flex flex-col'>
                   <ReactMarkdown
                     components={{
