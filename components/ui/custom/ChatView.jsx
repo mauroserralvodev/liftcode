@@ -1,5 +1,5 @@
 "use client"
-import vector from '@/public/Vector.png';
+import vector from '@/public/gdf.png';
 import { MessagesContext } from '@/context/MessagesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import { api } from '@/convex/_generated/api';
