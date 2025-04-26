@@ -201,35 +201,78 @@ function Page() {
                 <FooterLift/>
               </div>
             ) : (
-                <div className="relative  min-h-screen w-full flex items-center justify-center">
-                    <div className="flex flex-col items-center py-24 px-56 gap-2 max-w-6xl mx-auto rounded-[2rem] backdrop-blur-sm">
-                        <Link href="/" className="flex text-lg items-center text-white mb-6">
-                            <img src="logow.png" className="w-48 sm:w-64" alt="Logo" />
-                        </Link>
-                        <div className="p-5 border border-white/30 rounded-xl w-full mt-3 bg-neutral-200/20 min-w-[38rem]">
-                            <div className="flex gap-2">
-                                <textarea
-                                    placeholder={Lookup.INPUT_PLACEHOLDER}
-                                    onChange={(event) => setUserInput(event.target.value)}
-                                    className="outline-none bg-transparent w-full h-32 max-h-52 resize-none text-neutral-200 placeholder:text-neutral-200"
-                                />
-                                {userInput && (
-                                    <ArrowRight
-                                        onClick={() => onGenerate(userInput)}
-                                        className="h-8 w-8 p-2 rounded-md bg-white/70 text-neutral-800 cursor-pointer border border-white/10 hover:bg-[#0071E3] hover:text-white transition"
-                                    />
-                                )}
-                            </div>
-                        </div>
-                        <p className="mb-10 text-neutral-200 mt-2 text-sm text-left">
-                            By using Liftcode AI you accept the{" "}
-                            <a href="/terms" className="hover:underline hover:text-[#0071E3]">
-                                terms and conditions
-                            </a>{" "}
-                            of the platform.
-                        </p>
+              <div className="relative min-h-screen w-full flex flex-col bg-cover bg-center bg-no-repeat">
+                <div className="flex-grow flex items-center justify-center px-4 mt-6">
+                  <div className="flex flex-col items-center py-8 md:py-24 px-4 md:px-56 gap-2 max-w-6xl mx-auto rounded-[2rem] backdrop-blur-sm">
+                    <Link href="/" className="flex text-lg items-center text-white mb-6">
+                      <img src="/logow.png" className="w-48 sm:w-64" alt="Main Logo" />
+                    </Link>
+          
+                    <div className="p-5 border border-white/20 rounded-xl w-full mt-3 bg-white/10 min-w-full md:min-w-[38rem]">
+                      <div className="flex gap-2">
+                        <textarea
+                          placeholder={Lookup.INPUT_PLACEHOLDER} 
+                          onChange={(e) => setUserInput(e.target.value)}
+                          className="outline-none bg-transparent w-full h-32 max-h-52 resize-none text-neutral-200 placeholder:text-neutral-100"
+                        />
+                        {userInput && (
+                          <ArrowRight
+                            onClick={() => onGenerate(userInput)}
+                            className="h-8 w-8 p-2 rounded-md bg-white/70 text-neutral-800 cursor-pointer border border-white/10 hover:bg-[#0071E3] hover:text-white transition"
+                          />
+                        )}
+                      </div>
                     </div>
+          
+                    <p className="mb-10 text-neutral-200 mt-2 text-sm w-full text-center">
+                      By using Liftcode AI you accept the{" "}
+                      <a href="/terms" className="hover:underline hover:text-[#0071E3]">
+                        terms and conditions
+                      </a>{" "}
+                      of the platform.
+                    </p>
+                  </div>
                 </div>
+          
+                {/* Footer */}
+                <footer className="w-full py-4 px-6 backdrop-blur-sm border-t border-white/20 mt-auto">
+                  <div className="flex flex-wrap justify-between items-center gap-4  mx-auto">
+                    <div className="flex items-center gap-4">
+                      <img 
+                        src="/brinpage-logo.png" 
+                        alt="Brinpage Logo" 
+                        className="h-8 w-auto opacity-70"
+                      />
+                      <div className="h-8 border-r border-white/50" />
+                      <div className="text-sm text-white/80">
+                        © 2025 Liftcode &#40;liftcode.net&#41; — A <a href='https://brinpage.com/' className='hover:underline'>Brinpage</a> product. All Rights Reserved.
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-x-4 ml-auto">
+                      <Link 
+                        href="/components" 
+                        className="hover:underline text-sm text-white/80 hover:text-[#0071E3] transition"
+                      >
+                        Components
+                      </Link>
+                      <Link 
+                        href="/terms" 
+                        className="hover:underline text-sm text-white/80 hover:text-[#0071E3] transition"
+                      >
+                        Terms
+                      </Link>
+                      <Link 
+                        href="/Pricing" 
+                        className="hover:underline text-sm text-white/80 hover:text-[#0071E3] transition"
+                      >
+                        Pricing
+                      </Link>
+                    </div>
+                  </div>
+                </footer>
+              </div>
+                
             )}
 
             <SignInDialog openDialog={openDialog} closeDialog={(v) => setOpenDialog(v)} />

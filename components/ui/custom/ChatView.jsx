@@ -132,7 +132,6 @@ function ChatView() {
     }
   };
   
-
   const onGenerate = (input) => {
     if(userDetail?.token < 100){
       setShowCreditNotification(true);
