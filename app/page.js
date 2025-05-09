@@ -235,7 +235,7 @@ function Page() {
                 </div>
           
                 {/* Footer */}
-                <footer className="w-full py-4 px-6 backdrop-blur-sm border-t border-white/20 mt-auto">
+                {/* <footer className="w-full py-4 px-6 backdrop-blur-sm border-t border-white/20 mt-auto">
                   <div className="flex flex-wrap justify-between items-center gap-4  mx-auto">
                     <div className="flex items-center gap-4">
                       <img 
@@ -270,7 +270,7 @@ function Page() {
                       </Link>
                     </div>
                   </div>
-                </footer>
+                </footer> */}
               </div>
                 
             )}
