@@ -21,10 +21,12 @@ export async function POST(req) {
     `);
 
     // Extracción y limpieza agresiva
-    let cleanText = result.response.text()
-      .replace(/^[\s\[]*\{[^}]*"content"\s*:\s*"/, '') // Elimina todo hasta content
-      .replace(/"\s*\}\s*\]\s*$/, '')                 // Elimina todo después del texto
-      .replace(/\\n/g, '\n')                          // Convierte saltos de línea
+    let raw = await result.response.text(); // <- await agregado
+
+    let cleanText = raw
+      .replace(/^[\s\[]*\{[^}]*"content"\s*:\s*"/, '')
+      .replace(/"\s*\}\s*\]\s*$/, '')
+      .replace(/\\n/g, '\n')
       .trim();
 
     // Validación final

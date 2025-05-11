@@ -74,15 +74,22 @@ function CodeView() {
 
   const GenerateAiCode = async () => {
     setLoading(true);
-    const PROMPT = JSON.stringify(messages) + " " + Prompt.CODE_GEN_PROMPT;
+
+    // 🔧 Filtra mensajes válidos (evita system duplicados o errores pegados)
+    const validMessages = messages.filter(msg =>
+      msg.role === 'user' || msg.role === 'assistant'
+    );
+
+    const cleanedPrompt = validMessages.map(m => m.content).join('\n') + "\n" + Prompt.CODE_GEN_PROMPT;
+
     const result = await axios.post('/api/gen-ai-code', {
-      prompt: PROMPT
+      prompt: cleanedPrompt
     });
-    
+
     const aiResp = result.data;
-    const mergedFiles = { ...Lookup.DEFAULT_FILE, ...aiResp?.files }
+    const mergedFiles = { ...Lookup.DEFAULT_FILE, ...aiResp?.files };
     setFiles(mergedFiles);
-    
+
     await UpdateFiles({
       dashId: id,
       files: aiResp?.files
@@ -90,18 +97,19 @@ function CodeView() {
 
     const token = Number(userDetail?.token) - Number(countToken(JSON.stringify(aiResp)));
 
-    setUserDetail(prev=>({
+    setUserDetail(prev => ({
       ...prev,
-      token:token
-    }))
+      token: token
+    }));
+
     await UpdateTokens({
       userId: userDetail?._id,
       token: token
-    })
+    });
 
-    setActiveTab('code')
+    setActiveTab('code');
     setLoading(false);
-  }
+  };
 
   return (
     <div className='relative'>

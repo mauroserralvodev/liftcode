@@ -18,7 +18,7 @@ function DashContent() {
     {showBetaWarning && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-neutral-800/70 border border-white/20 p-8 rounded-lg max-w-md mx-4 ">
-            <h2 className="text-2xl font-meduium mb-4">Beta version</h2>
+            <h2 className="text-2xl font-medium mb-4">Beta version</h2>
             <div className="mb-4 text-neutral-400">
               This application is in beta phase and can:
               <ul className="list-disc pl-5 mt-2">

@@ -188,9 +188,10 @@ function ChatView() {
                   height={35} 
                   className='mt-1 self-start p-1' 
                 /> */}
-                  <img src={vector} alt="Logo"  width={35} 
+                  {/* <img src={vector} alt="Logo"  width={35} 
                   height={35} 
-                  className='mt-1 self-start p-1'  />
+                  className='mt-1 self-start p-1'  /> */}
+                  <Image src={vector} alt="Logo" width={35} height={35} className='mt-1 self-start p-1' />
                 <div className='text-neutral-200 px-2 flex flex-col'>
                   <ReactMarkdown
                     components={{
