@@ -19,7 +19,7 @@ const CodeGenerationConfig = {
   temperature: 1,
   topP: 0.95,
   topK: 40,
-  maxOutputTokens: 20000,
+  maxOutputTokens: 10000,
   responseMimeType: "application/json",
 };
 

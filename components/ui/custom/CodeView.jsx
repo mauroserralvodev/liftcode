@@ -90,9 +90,14 @@ function CodeView() {
     const mergedFiles = { ...Lookup.DEFAULT_FILE, ...aiResp?.files };
     setFiles(mergedFiles);
 
+    if (!aiResp?.files) {
+      console.error("Faltan los archivos generados por la IA.");
+      return;
+    }
+
     await UpdateFiles({
       dashId: id,
-      files: aiResp?.files
+      files: aiResp.files,
     });
 
     const token = Number(userDetail?.token) - Number(countToken(JSON.stringify(aiResp)));
