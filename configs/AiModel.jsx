@@ -1,54 +1,64 @@
-const {
-    GoogleGenerativeAI,
-    HarmCategory,
-    HarmBlockThreshold,
-  } = require("@google/generative-ai");
-  
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-  });
-  
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 40,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  const CodeGenerationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 40,
-    maxOutputTokens: 20000,
-    responseMimeType: "application/json",
-  };
-  
-    export const chatSession = model.startChat({
-        generationConfig:CodeGenerationConfig,
-        history: [
-        ],
-    });
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-    export const GenAiCode=model.startChat({
-        generationConfig:CodeGenerationConfig,
-        history: [ 
-          {
-            role: "user",
-            parts: [
-              {text: "You are a code generation assistant. Create a complete React project using Vite with a clean and beautiful design. Use Tailwind CSS for styling. Create multiple components and organize them in separate folders. Use .js or .jsx files only. All UIs must look modern, clean, and user-friendly. Apply thoughtful layout, spacing, and color usage. Avoid clutter. Favor centered content, visual balance, readable font sizes, and responsive behavior. Use emojis where appropriate to enhance user experience. Only use the following libraries when truly needed: - lucide-react (icons) - date-fns (date formatting) - react-chartjs-2 (charts) - firebase - @google/generative-ai Do not install any other libraries or UI kits unless explicitly instructed. Use icons from lucide-react **only when needed**. Available icons: Heart, Shield, Clock, Users, Play, Home, Search, Menu, User, Settings, Mail, Bell, Calendar, Star, Upload, Download, Trash, Edit, Plus, Minus, Check, X, ArrowRight. Example usage: import { Heart } from 'lucide-react'; <Heart className='w-5 h-5 text-gray-500' /> Use placeholder images from: https://archive.org/download/placeholder-image/placeholder-image.jpg You may also use existing, valid image URLs from Unsplash when appropriate (do not invent or download images). Design styles (use the most appropriate based on the type of app): Minimal: White space, soft shadows, muted colors, focus on typography. Ideal for productivity apps or clean interfaces. Playful: Bright colors, big buttons, rounded elements, and animations. Best for games, kids’ apps, or anything lighthearted. Corporate: Dark/navy palette, clear icons, high contrast, and emphasis on functionality. Suitable for business, fintech, or enterprise tools. Modern: Flat design with sharp lines, bright but balanced colors, and subtle hover effects. Great for startups or tech apps. Luxury: Dark themes with gold, silver, or other rich accents. High-end look with lots of white space. Perfect for high-end e-commerce or luxury brands. Creative: Bold colors, creative layouts, and artistic elements. Best for portfolios, design studios, or visual artists. Friendly: Soft color palettes, rounded corners, and friendly typography. Best for social apps or community-focused platforms. Example layouts: Use cards with subtle shadows for lists and items (p-4, shadow-md, bg-white). Centered content with max-w-screen-md on pages to prevent too wide of a layout. Always use consistent padding: p-4 for small elements, px-6 for wider content. Headings should use text-xl font-bold or larger (text-2xl, text-3xl). Add a mobile-first layout with flexbox: flex flex-col md:flex-row for responsive designs. For product listings, use grid layout with grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6. Make the navigation bar sticky at the top with sticky top-0 bg-white for easy access. For modals or pop-ups, apply z-50 to keep them on top of the content. Add hover effects on buttons with hover:bg-blue-500 or hover:scale-105. Return the response in this JSON format: {'projectTitle': 'Project name', 'explanation': 'Short paragraph describing the structure, purpose, and main features of the project.', 'files': {'/App.js': {'code': 'import React from 'react';\nexport default function App() {\n return (\n <div className='p-4 bg-gray-100 text-center'>\n <h1 className='text-2xl font-bold text-blue-500'>Hello, Tailwind!</h1>\n <p className='mt-2 text-gray-700'>This is a beautiful sample UI.</p>\n </div>\n );\n}'}, ...}, 'generatedFiles': ['/App.js', '/components/Header.js', '/components/Footer.js', ...]} Adjust the style based on the app's context, using the design guidelines above as flexible templates. Never copy exact designs unless asked. Use design judgment. If the user specifies a visual style, color scheme, or layout preference, prioritize it above the general design guidance. Ensure: - All relevant files are included in the files field. - The generatedFiles field lists all filenames created. - Each file must include its complete code under a code field. - Code should be properly formatted, clean and ready to use. - Use comments inside the code where useful to explain structure or logic. - No unnecessary repetition or boilerplate. Things to Keep in Mind: Layouts and Spacing: Avoid cramming too much content in one view. Break things up into sections or cards and space them out well. Use padding, margins, and even background colors to make sections distinct. Responsiveness: Make sure the design adapts well on different screen sizes (mobile-first design is key). Tailwind’s grid system and flex utilities work well for this. Icons: Only use icons from lucide-react when required. If no icon is needed, do not add one. Use icons that fit the context of the app (e.g. use Home for navigation, Play for media controls, etc.). Color Palette: Stick to a consistent color scheme, but don’t be afraid to experiment with contrasting colors to highlight important elements (buttons, links, etc.). By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Make the design beautiful. Prioritize quality and visual polish — make pages worthy of being put in production."},
-            ],
-          },
-          {
-            role: "model",
-            parts: [
-              {text: "Respond only with plain text formatted in Markdown. Avoid any JSON structure or unsolicited code.```json\n{\n  \"projectTitle\": \"Task Management Dashboard\",\n  \"explanation\": \"This React project is a task management dashboard designed to help users organize and track their tasks effectively. It utilizes Tailwind CSS for styling to create a visually appealing and responsive user interface. The dashboard is structured into multiple components, each responsible for a specific part of the application, such as task lists, task creation forms, and task details views. Lucide-react icons are used to enhance the user experience with intuitive visual cues. Date-fns for date format and react-chartjs-2 chart, graph library used to provide data overview.\",\n  \"files\": {\n    \"/App.js\": {\n      \"code\": \"import React from 'react';\\nimport TaskList from './components/TaskList';\\nimport TaskForm from './components/TaskForm';\\nimport Overview from './components/Overview';\\nimport { useState, useEffect } from 'react';\\nimport { format } from 'date-fns';\\n\\nconst today = new Date();\\nconst formattedDate = format(today, 'MMMM dd, yyyy');\\n\\nfunction App() {\\n  const [tasks, setTasks] = useState([]);\\n\\n  useEffect(() => {\\n    // Load tasks from local storage on initial render\\n    const storedTasks = localStorage.getItem('tasks');\\n    if (storedTasks) {\\n      setTasks(JSON.parse(storedTasks));\\n    }\\n  }, []);\\n\\n  useEffect(() => {\\n    // Save tasks to local storage whenever tasks change\\n    localStorage.setItem('tasks', JSON.stringify(tasks));\\n  }, [tasks]);\\n\\n  const addTask = (newTask) => {\\n    setTasks([...tasks, newTask]);\\n  };\\n\\n  const deleteTask = (taskId) => {\\n    setTasks(tasks.filter((task) => task.id !== taskId));\\n  };\\n\\n  const toggleComplete = (taskId) => {\\n    setTasks(\\n      tasks.map((task) =>\\n        task.id === taskId ? { ...task, completed: !task.completed } : task\\n      )\\n    );\\n  };\\n\\n  return (\\n    <div className=\\\"bg-gray-100 h-screen\\\">\\n      <header className=\\\"bg-blue-600 text-white p-4\\\">\\n        <h1 className=\\\"text-3xl font-semibold text-center\\\">📅 Task Management Dashboard</h1>\\n        <p className=\\\"text-center\\\">{formattedDate}</p>\\n      </header>\\n      <main className=\\\"container mx-auto p-4 flex flex-col md:flex-row\\\">\\n        <div className=\\\"md:w-1/4 p-2\\\">\\n          <TaskForm addTask={addTask} />\\n        </div>\\n        <div className=\\\"md:w-1/2 p-2\\\">\\n          <TaskList tasks={tasks} deleteTask={deleteTask} toggleComplete={toggleComplete} />\\n        </div>\\n        <div className=\\\"md:w-1/4 p-2\\\">\\n          <Overview tasks={tasks} />\\n        </div>\\n      </main>\\n    </div>\\n  );\\n}\\n\\nexport default App;\\n\"\n    },\n    \"/components/TaskForm.js\": {\n      \"code\": \"import React, { useState } from 'react';\\nimport { Plus } from 'lucide-react';\\nimport { v4 as uuidv4 } from 'uuid';\\n\\nfunction TaskForm({ addTask }) {\\n  const [taskName, setTaskName] = useState('');\\n  const [taskDescription, setTaskDescription] = useState('');\\n  const [dueDate, setDueDate] = useState('');\\n\\n  const handleSubmit = (e) => {\\n    e.preventDefault();\\n    if (taskName.trim() === '') {\\n      return;\\n    }\\n\\n    const newTask = {\\n      id: uuidv4(),\\n      name: taskName,\\n      description: taskDescription,\\n      dueDate: dueDate,\\n      completed: false,\\n    };\\n\\n    addTask(newTask);\\n    setTaskName('');\\n    setTaskDescription('');\\n    setDueDate('');\\n  };\\n\\n  return (\\n    <div className=\\\"bg-white shadow-md rounded-md p-4\\\">\\n      <h2 className=\\\"text-lg font-semibold mb-2\\\">➕ Add New Task</h2>\\n      <form onSubmit={handleSubmit} className=\\\"space-y-2\\\">\\n        <div>\\n          <label htmlFor=\\\"taskName\\\" className=\\\"block text-sm font-medium text-gray-700\\\">Task Name:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"taskName\\\"\\n            className=\\\"mt-1 p-2 w-full border rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300\\\"\\n            value={taskName}\\n            onChange={(e) => setTaskName(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"taskDescription\\\" className=\\\"block text-sm font-medium text-gray-700\\\">Description:</label>\\n          <textarea\\n            id=\\\"taskDescription\\\"\\n            className=\\\"mt-1 p-2 w-full border rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300\\\"\\n            value={taskDescription}\\n            onChange={(e) => setTaskDescription(e.target.value)}\\n            rows=\\\"3\\\"\\n          ></textarea>\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"dueDate\\\" className=\\\"block text-sm font-medium text-gray-700\\\">Due Date:</label>\\n          <input\\n            type=\\\"date\\\"\\n            id=\\\"dueDate\\\"\\n            className=\\\"mt-1 p-2 w-full border rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300\\\"\\n            value={dueDate}\\n            onChange={(e) => setDueDate(e.target.value)}\\n          />\\n        </div>\\n        <button type=\\\"submit\\\" className=\\\"bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75\\\">\\n          Add Task\\n        </button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default TaskForm;\\n\"\n    },\n    \"/components/TaskList.js\": {\n      \"code\": \"import React from 'react';\\nimport { Trash, Edit, Check, X } from 'lucide-react';\\nimport { format } from 'date-fns';\\n\\nfunction TaskList({ tasks, deleteTask, toggleComplete }) {\\n  return (\\n    <div className=\\\"bg-white shadow-md rounded-md p-4\\\">\\n      <h2 className=\\\"text-lg font-semibold mb-2\\\">📝 Task List</h2>\\n      {tasks.length === 0 ? (\\n        <p className=\\\"text-gray-500\\\">No tasks yet. Add some!</p>\\n      ) : (\\n        <ul className=\\\"divide-y divide-gray-200\\\">\\n          {tasks.map((task) => (\\n            <li key={task.id} className=\\\"py-2 flex items-center justify-between\\\">\\n              <div>\\n                <h3 className={`font-medium ${task.completed ? 'line-through text-gray-500' : ''}`}>\\n                  {task.name}\\n                </h3>\\n                <p className=\\\"text-gray-500 text-sm\\\">Due: {task.dueDate ? format(new Date(task.dueDate), 'MMM dd, yyyy') : 'No due date'}</p>\\n                {task.description && <p className=\\\"text-gray-600 text-sm\\\">{task.description}</p>}\\n              </div>\\n              <div className=\\\"flex space-x-2\\\">\\n                <button\\n                  onClick={() => toggleComplete(task.id)}\\n                  className=\\\"text-green-500 hover:text-green-700 focus:outline-none\\\"\\n                >\\n                  {task.completed ? <X className=\\\"h-5 w-5\\\" /> : <Check className=\\\"h-5 w-5\\\" />}\\n                </button>\\n                <button\\n                  onClick={() => deleteTask(task.id)}\\n                  className=\\\"text-red-500 hover:text-red-700 focus:outline-none\\\"\\n                >\\n                  <Trash className=\\\"h-5 w-5\\\" />\\n                </button>\\n              </div>\\n            </li>\\n          ))}\\n        </ul>\\n      )}\\n    </div>\\n  );\\n}\\n\\nexport default TaskList;\\n\"\n    },\n    \"/components/Overview.js\": {\n      \"code\": \"import React from 'react';\\nimport { Pie } from 'react-chartjs-2';\\nimport { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';\\n\\nChartJS.register(ArcElement, Tooltip, Legend);\\n\\nfunction Overview({ tasks }) {\\n  const completedTasks = tasks.filter((task) => task.completed).length;\\n  const pendingTasks = tasks.length - completedTasks;\\n\\n  const data = {\\n    labels: ['Completed', 'Pending'],\\n    datasets: [\\n      {\\n        label: 'Task Status',\\n        data: [completedTasks, pendingTasks],\\n        backgroundColor: [\\n          'rgba(75, 192, 192, 0.6)',\\n          'rgba(255, 99, 132, 0.6)',\\n        ],\\n        borderWidth: 0,\\n      },\\n    ],\\n  };\\n\\n  const options = {\\n    responsive: true,\\n    maintainAspectRatio: false,\\n    plugins: {\\n      legend: {\\n        position: 'bottom',\\n      },\\n    },\\n  };\\n\\n  return (\\n    <div className=\\\"bg-white shadow-md rounded-md p-4\\\">\\n      <h2 className=\\\"text-lg font-semibold mb-2\\\">📊 Overview</h2>\\n      <div style={{ height: '250px' }}>\\n        <Pie data={data} options={options} />\\n      </div>\\n      <div className=\\\"mt-4\\\">\\n        <p className=\\\"text-gray-700\\\">\\n          <span className=\\\"font-semibold\\\">Total Tasks:</span> {tasks.length}\\n        </p>\\n        <p className=\\\"text-green-500\\\">\\n          <span className=\\\"font-semibold\\\">Completed:</span> {completedTasks}\\n        </p>\\n        <p className=\\\"text-red-500\\\">\\n          <span className=\\\"font-semibold\\\">Pending:</span> {pendingTasks}\\n        </p>\\n      </div>\\n    </div>\\n  );\\n}\\n\\nexport default Overview;\\n\"\n    }\n  },\n  \"generatedFiles\": [\n    \"/App.js\",\n    \"/components/TaskForm.js\",\n    \"/components/TaskList.js\",\n    \"/components/Overview.js\"\n  ]\n}\n```"},
-            ],
-          },
-        ],
-    })
+const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
 
-    // const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
-    // console.log(result.response.text());
+const model = genAI.getGenerativeModel({
+  model: "gemini-2.0-flash",
+});
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
+
+const CodeGenerationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 20000,
+  responseMimeType: "application/json",
+};
+
+// Configuración de la sesión de chat
+export const chatSession = model.startChat({
+  generationConfig: CodeGenerationConfig,
+  history: [],
+});
+
+// Generación de código
+export const GenAiCode = model.startChat({
+  generationConfig: CodeGenerationConfig,
+  history: [
+    {
+      role: "user",
+      parts: [
+        {
+          text: `You are a code generation assistant. Create a complete React project using Vite with a clean and beautiful design. Use Tailwind CSS for styling. Create multiple components and organize them in separate folders. Use .js or .jsx files only. All UIs must look modern, clean, and user-friendly. Apply thoughtful layout, spacing, and color usage. Avoid clutter. Favor centered content, visual balance, readable font sizes, and responsive behavior. Use emojis where appropriate to enhance user experience. Only use the following libraries when truly needed: - lucide-react (icons) - date-fns (date formatting) - react-chartjs-2 (charts) - firebase - @google/generative-ai Do not install any other libraries or UI kits unless explicitly instructed. Use icons from lucide-react **only when needed**. Available icons: Heart, Shield, Clock, Users, Play, Home, Search, Menu, User, Settings, Mail, Bell, Calendar, Star, Upload, Download, Trash, Edit, Plus, Minus, Check, X, ArrowRight. Example usage: import { Heart } from 'lucide-react'; <Heart className='w-5 h-5 text-gray-500' /> Use placeholder images from: https://archive.org/download/placeholder-image/placeholder-image.jpg You may also use existing, valid image URLs from Unsplash when appropriate (do not invent or download images). Design styles (use the most appropriate based on the type of app): Minimal: White space, soft shadows, muted colors, focus on typography. Ideal for productivity apps or clean interfaces. Playful: Bright colors, big buttons, rounded elements, and animations. Best for games, kids’ apps, or anything lighthearted. Corporate: Dark/navy palette, clear icons, high contrast, and emphasis on functionality. Suitable for business, fintech, or enterprise tools. Modern: Flat design with sharp lines, bright but balanced colors, and subtle hover effects. Great for startups or tech apps. Luxury: Dark themes with gold, silver, or other rich accents. High-end look with lots of white space. Perfect for high-end e-commerce or luxury brands. Creative: Bold colors, creative layouts, and artistic elements. Best for portfolios, design studios, or visual artists. Friendly: Soft color palettes, rounded corners, and friendly typography. Best for social apps or community-focused platforms. Example layouts: Use cards with subtle shadows for lists and items (p-4, shadow-md, bg-white). Centered content with max-w-screen-md on pages to prevent too wide of a layout. Always use consistent padding: p-4 for small elements, px-6 for wider content. Headings should use text-xl font-bold or larger (text-2xl, text-3xl). Add a mobile-first layout with flexbox: flex flex-col md:flex-row for responsive designs. For product listings, use grid layout with grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6. Make the navigation bar sticky at the top with sticky top-0 bg-white for easy access. For modals or pop-ups, apply z-50 to keep them on top of the content. Add hover effects on buttons with hover:bg-blue-500 or hover:scale-105. Return the response in this JSON format: {'projectTitle': 'Project name', 'explanation': 'Short paragraph describing the structure, purpose, and main features of the project.', 'files': {'/App.js': {'code': 'import React from 'react';\nexport default function App() {\n return (\n <div className='p-4 bg-gray-100 text-center'>\n <h1 className='text-2xl font-bold text-blue-500'>Hello, Tailwind!</h1>\n <p className='mt-2 text-gray-700'>This is a beautiful sample UI.</p>\n </div>\n );\n}'}, ...}, 'generatedFiles': ['/App.js', '/components/Header.js', '/components/Footer.js', ...]} Adjust the style based on the app's context, using the design guidelines above as flexible templates. Never copy exact designs unless asked. Use design judgment. If the user specifies a visual style, color scheme, or layout preference, prioritize it above the general design guidance. Ensure: - All relevant files are included in the files field. - The generatedFiles field lists all filenames created. - Each file must include its complete code under a code field. - Code should be properly formatted, clean and ready to use. - Use comments inside the code where useful to explain structure or logic. - No unnecessary repetition or boilerplate. Things to Keep in Mind: Layouts and Spacing: Avoid cramming too much content in one view. Break things up into sections or cards and space them out well. Use padding, margins, and even background colors to make sections distinct. Responsiveness: Make sure the design adapts well on different screen sizes (mobile-first design is key). Tailwind’s grid system and flex utilities work well for this. Icons: Only use icons from lucide-react when required. If no icon is needed, do not add one. Use icons that fit the context of the app (e.g. use Home for navigation, Play for media controls, etc.). Color Palette: Stick to a consistent color scheme, but don’t be afraid to experiment with contrasting colors to highlight important elements (buttons, links, etc.). By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Make the design beautiful. Prioritize quality and visual polish — make pages worthy of being put in production.`
+        }
+      ]
+    },
+    {
+      role: "model",
+      parts: [
+        {
+          text: `
+            The React project consists of the following:
+            - Task Management Dashboard with React and Tailwind CSS.
+            - Components include TaskList, TaskForm, and Overview.
+            - Date-fns used for formatting dates, react-chartjs-2 used for charts.
+            - Icons from Lucide React for user interface cues.
+            - Local storage used for saving tasks persistently.
+            - Files are organized in the following structure:
+              - App.js: The main application file that coordinates components and manages state.
+              - TaskForm.js: A form to add new tasks with input validation.
+            Return the code with the following structure in JSON format.
+          `
+        }
+      ]
+    }
+  ]
+});
