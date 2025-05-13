@@ -1,6 +1,8 @@
 
 # LiftCode – AI-powered App Generator
 
+you can see the complete and detailed documentation at [https://docs.brinpage.com/liftcode](https://docs.brinpage.com/liftcode)
+
 **LiftCode** is a powerful platform that generates fully functional web apps from simple natural language prompts. By using artificial intelligence, it translates user ideas into real, editable code – ready to deploy or enhance.
 
 ## Visit Us
