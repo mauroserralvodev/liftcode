@@ -64,18 +64,21 @@ function CodeView() {
   }
 
   useEffect(() => {
-    if (messages?.length > 0) {
-      const role = messages[messages?.length - 1].role;
-      if (role === 'user') {
+    if (messages?.length > 1) {
+      const lastMsg = messages[messages.length - 1];
+      const secondLastMsg = messages[messages.length - 2];
+
+      // Detecta si el penúltimo fue user y el último assistant
+      if (secondLastMsg.role === 'user' && lastMsg.role === 'ai') {
         GenerateAiCode();
       }
     }
-  }, [messages])
+  }, [messages]);
 
   const GenerateAiCode = async () => {
     setLoading(true);
 
-    // 🔧 Filtra mensajes válidos (evita system duplicados o errores pegados)
+    //  Filtra mensajes válidos (evita system duplicados o errores pegados)
     const validMessages = messages.filter(msg =>
       msg.role === 'user' || msg.role === 'assistant'
     );

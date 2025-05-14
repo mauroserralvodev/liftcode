@@ -112,11 +112,12 @@ function ChatView() {
         ...prev,
         token: prev.token - tokensUsed
       }));
-  
+      
       await UpdateTokens({
         userId: userDetail?._id,
         token: userDetail.token - tokensUsed
       });
+
     } catch (error) {
       console.error("Error completo:", error);
       setMessages(prev => [
