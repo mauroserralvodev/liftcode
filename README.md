@@ -147,11 +147,11 @@ Users will soon be able to:
 ## Contact & Social
 We’re building in public. Follow our journey:
 
-Email: mauro@brinpage.com or mauroserralvo.com
+Email: mauro@brinpage.com or [mauroserralvo.com](https://mauroserralvo.com)
 
-Parent site: https://brinpage.com/
+Parent site: [brinpage.com](https://brinpage.com)
 
-Instagram: @liftcodenet
+Instagram: [@liftcodenet](https://instagram.com/liftcodenet)
 
 ## License
 This project is proprietary. All rights reserved. Do not distribute, replicate, or resell without written permission.
