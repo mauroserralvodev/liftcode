@@ -147,9 +147,9 @@ Users will soon be able to:
 ## Contact & Social
 We’re building in public. Follow our journey:
 
-Email: mauro@brinpage.com
+Email: mauro@brinpage.com or mauroserralvo.com
 
-Parent site: https://brinpage.com
+Parent site: https://brinpage.com/
 
 Instagram: @liftcodenet
 
